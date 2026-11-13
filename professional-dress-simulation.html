@@ -1,78 +1,732 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Professional Dress Challenge | SoLAcc</title>
 <style>
-:root{--navy:#003d78;--gold:#ffc94f;--cream:#fcf2e7;--green:#7c9b06;--blue:#327fef;--ink:#172c40}*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f4f8fc;color:var(--ink);line-height:1.5}.wrap{max-width:1100px;margin:auto;padding:18px}.hero{background:var(--navy);color:white;padding:22px 26px;border-radius:16px}.hero h1{margin:4px 0;font-size:clamp(1.45rem,3vw,2.1rem)}.hero p{margin:5px 0}.eyebrow{color:var(--gold);font-weight:bold;font-size:.85rem}.layout{display:grid;grid-template-columns:minmax(250px,1fr) minmax(300px,1.2fr);gap:18px;margin-top:18px}.panel{background:white;border:1px solid #d7e2ec;border-radius:14px;padding:18px}.panel h2{font-size:1.18rem;color:var(--navy);margin:0 0 12px}.choice-row{display:flex;flex-wrap:wrap;gap:9px}button,select{font:inherit}button{cursor:pointer;border:2px solid #a9bed1;background:white;border-radius:10px;padding:9px 12px;color:var(--ink)}button:hover{border-color:var(--navy)}button:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.selected{background:var(--navy);color:white;border-color:var(--navy)}.scenario{width:100%;padding:10px;border:2px solid #9bb3c8;border-radius:9px;background:white}.hint{font-size:.88rem;color:#425a6e}.stage{background:linear-gradient(180deg,#eaf5fc,#fff);border:2px dashed #8aafce;border-radius:14px;min-height:420px;display:flex;align-items:center;justify-content:center;position:relative}.stage.dragover{background:#fff3d4;border-color:var(--navy)}svg#avatar{height:400px;max-width:100%;width:260px}.closet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.item{padding:6px 5px;min-height:108px;display:flex;align-items:center;flex-direction:column;justify-content:center;gap:3px;background:#fbfdff}.item svg{width:80px;height:65px;max-width:100%}.item span{font-size:.76rem;font-weight:bold;text-align:center}.item[aria-pressed="true"]{border-color:var(--green);background:#f2f7df;box-shadow:inset 0 0 0 1px var(--green)}.section-title{font-weight:bold;margin:14px 0 8px;color:var(--navy)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.primary{background:var(--navy);border-color:var(--navy);color:white;font-weight:bold}.feedback{margin-top:14px;border-left:5px solid var(--green);background:#f2f7e6;padding:12px 15px;border-radius:7px}.feedback.needswork{border-left-color:#bf6b18;background:#fff3e2}.feedback[hidden]{display:none}.tag{font-size:.78rem;background:var(--cream);padding:3px 8px;border-radius:6px;display:inline-block;margin-top:8px}.footer{font-size:.85rem;color:#486078;margin-top:15px}@media(max-width:750px){.layout{grid-template-columns:1fr}.stage{min-height:345px}svg#avatar{height:330px}.closet{grid-template-columns:repeat(3,1fr)}}@media(max-width:360px){.closet{grid-template-columns:repeat(2,1fr)}}
+:root {
+  --navy:#003d78;
+  --gold:#ffc94f;
+  --cream:#fcf2e7;
+  --green:#7c9b06;
+  --blue:#327fef;
+  --ink:#172c40;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f8fc;
+  color:var(--ink);
+  line-height:1.45;
+}
+.wrap {max-width:960px;margin:auto;padding:10px}
+.hero {
+  background:var(--navy);
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+}
+.hero h1 {font-size:1.65rem;margin:3px 0}
+.hero p {margin:5px 0}
+.eyebrow {color:var(--gold);font-size:.8rem;font-weight:bold}
+.layout {
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+.panel {background:white;border-radius:10px;padding:12px}
+h2 {font-size:1.1rem;color:var(--navy);margin:0 0 10px}
+button,select {font:inherit}
+button {
+  cursor:pointer;
+  border:2px solid #a9bed1;
+  background:white;
+  color:var(--ink);
+  border-radius:9px;
+  padding:8px 10px;
+}
+button:hover {border-color:var(--navy)}
+button:focus-visible,select:focus-visible {
+  outline:3px solid var(--blue);
+  outline-offset:2px;
+}
+.selected,.primary {
+  background:var(--navy);
+  border-color:var(--navy);
+  color:white;
+}
+.choice-row,.actions {display:flex;flex-wrap:wrap;gap:8px}
+.actions {margin-top:12px}
+.hint {font-size:.85rem;color:#425a6e}
+.scenario {
+  width:100%;
+  padding:9px;
+  border:2px solid #9bb3c8;
+  border-radius:8px;
+  background:white;
+}
+.section-title {
+  display:block;
+  margin:12px 0 7px;
+  color:var(--navy);
+  font-weight:bold;
+}
+.category-tabs {display:flex;gap:5px;margin:10px 0}
+.category-tab {
+  flex:1;
+  padding:7px 4px;
+  font-size:.85rem;
+  font-weight:bold;
+}
+.category-tab[aria-selected="true"] {
+  background:var(--navy);
+  border-color:var(--navy);
+  color:white;
+}
+.closet {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.item {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:110px;
+  padding:5px;
+  background:#fbfdff;
+}
+.item svg {width:100%;max-width:105px;height:78px}
+.item span {font-size:.75rem;font-weight:bold;text-align:center}
+.item[aria-pressed="true"] {
+  border-color:var(--green);
+  background:#f2f7df;
+}
+.stage {
+  min-height:350px;
+  border-radius:10px;
+  background:linear-gradient(#eaf5fc,#fff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.stage.dragover {background:#fff3d4}
+#avatar {width:240px;height:340px;max-width:100%}
+.feedback {
+  margin-top:12px;
+  padding:12px;
+  background:#f2f7e6;
+  border-left:5px solid var(--green);
+  border-radius:6px;
+}
+.feedback.needswork {
+  background:#fff3e2;
+  border-left-color:#bf6b18;
+}
+.feedback[hidden] {display:none}
+.tag {
+  display:block;
+  margin-top:8px;
+  font-size:.8rem;
+  padding:6px 8px;
+  background:var(--cream);
+  border-radius:6px;
+}
+.footer {font-size:.8rem;color:#486078;margin-top:12px}
+@media(max-width:750px) {
+  .layout {grid-template-columns:1fr}
+  .stage {min-height:300px}
+  #avatar {height:300px}
+}
+@media(max-width:360px) {
+  .closet {grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
-<body><main class="wrap">
-<header class="hero"><div class="eyebrow">COLS 1200 • MODULE 3 • UNGRADED PRACTICE</div><h1>Professional Dress Challenge</h1><p>Choose a character, explore a situation, and build an outfit. Dress for the setting, not for a stereotype.</p></header>
-<div class="layout"><section class="panel" aria-labelledby="setup"><h2 id="setup">1. Choose your character and setting</h2><div class="choice-row" role="group" aria-label="Choose a character"><button id="girl" class="selected" type="button" aria-pressed="true">Girl character</button><button id="boy" type="button" aria-pressed="false">Boy character</button></div><p class="hint">All clothing choices are available to either character.</p><label for="scenario" class="section-title" style="display:block">Choose a situation</label><select id="scenario" class="scenario"><option value="office">Office job interview</option><option value="trade">Skilled trades worksite visit</option><option value="advising">Virtual transfer advising appointment</option><option value="health">Healthcare clinical site visit</option><option value="casual">Casual workplace orientation</option></select><p id="scenario-desc" class="hint" aria-live="polite"></p><h2>2. Dress your character</h2><p class="hint">Drag an illustrated item onto the character, or tap/click it to put it on. Choose a top, bottom, and shoes. Dresses and one-piece outfits fill both top and bottom.</p><div id="closet" class="closet" aria-label="Clothing choices"></div><div class="actions"><button id="reset" type="button">Start over</button></div></section>
-<section class="panel" aria-labelledby="preview-title"><h2 id="preview-title">3. Review your outfit</h2><div id="stage" class="stage" aria-label="Outfit preview; drop clothing here"><svg id="avatar" viewBox="0 0 260 400" role="img" aria-label="Character wearing the selected clothing"></svg></div><div id="outfit-summary" class="tag" aria-live="polite">Choose your clothing to begin.</div><div class="actions"><button class="primary" id="check" type="button">Check my outfit</button><button id="next" type="button">Try another situation</button></div><div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div><p class="footer">There is no grade or submission. Clothing expectations vary by organization, role, culture, accessibility needs, and safety rules. Follow the specific instructions provided by your employer or institution.</p></section></div></main>
+<body>
+<main class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">COLS 1200 | MODULE 3 | UNGRADED PRACTICE</div>
+  <h1>Professional Dress Challenge</h1>
+  <p>Choose a character, select a situation, and build an appropriate outfit.</p>
+</header>
+
+<div class="layout">
+<section class="panel">
+  <h2>1. Choose Your Character</h2>
+  <div class="choice-row">
+    <button id="girl" class="selected" aria-pressed="true">Girl</button>
+    <button id="boy" aria-pressed="false">Boy</button>
+  </div>
+  <p class="hint">All clothing options are available for either character.</p>
+
+  <label class="section-title" for="scenario">Choose a situation</label>
+  <select id="scenario" class="scenario">
+    <option value="office">Office job interview</option>
+    <option value="trade">Skilled trades worksite</option>
+    <option value="advising">Virtual transfer advising</option>
+    <option value="health">Healthcare clinical visit</option>
+    <option value="casual">Casual workplace orientation</option>
+  </select>
+  <p id="scenario-desc" class="hint"></p>
+
+  <h2>2. Choose Your Clothing</h2>
+  <p class="hint">
+    Drag clothing onto the character or click an item.
+    Choose a top, bottom, and shoes. One-piece outfits
+    replace the top and bottom.
+  </p>
+
+  <div class="category-tabs" role="tablist"
+       aria-label="Clothing categories">
+    <button class="category-tab selected" data-category="tops"
+            role="tab" aria-selected="true">Tops & Outfits</button>
+    <button class="category-tab" data-category="bottoms"
+            role="tab" aria-selected="false">Bottoms</button>
+    <button class="category-tab" data-category="shoes"
+            role="tab" aria-selected="false">Shoes & Safety</button>
+  </div>
+
+  <div id="closet" class="closet" role="group"
+       aria-label="Clothing choices"></div>
+
+  <div class="actions">
+    <button id="reset">Start Over</button>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>3. Review Your Outfit</h2>
+  <div id="stage" class="stage"
+       aria-label="Drop clothing onto your character">
+    <svg id="avatar" viewBox="0 0 260 400"
+         role="img" aria-label="Character outfit preview"></svg>
+  </div>
+
+  <div id="outfit-summary" class="tag" aria-live="polite">
+    Choose your clothing to begin.
+  </div>
+
+  <div class="actions">
+    <button id="check" class="primary">Check My Outfit</button>
+    <button id="next">Next Situation</button>
+  </div>
+
+  <div id="feedback" class="feedback"
+       role="status" aria-live="polite" hidden></div>
+
+  <p class="footer">
+    This activity is ungraded. No submission is required.
+    Professional clothing depends on the setting, safety
+    requirements, and organizational expectations.
+  </p>
+</section>
+</div>
+</main>
+
 <script>
-'use strict';
-const clothes=[
-{id:'tank',name:'Tank top',slot:'top',shape:'tank',color:'#e99385'},
-{id:'tee',name:'T-shirt',slot:'top',shape:'tee',color:'#327fef'},
-{id:'collar',name:'Collared shirt',slot:'top',shape:'collar',color:'#d7ecfa'},
-{id:'blazer',name:'Blazer',slot:'top',shape:'blazer',color:'#243d65'},
-{id:'dress',name:'Knee-length dress',slot:'full',shape:'dress',color:'#7c9b06'},
-{id:'shortskirt',name:'Short skirt',slot:'bottom',shape:'skirt',color:'#e99385'},
-{id:'skirt',name:'Knee-length skirt',slot:'bottom',shape:'skirtlong',color:'#243d65'},
-{id:'jeans',name:'Jeans',slot:'bottom',shape:'pants',color:'#4778ae'},
-{id:'shorts',name:'Shorts',slot:'bottom',shape:'shorts',color:'#b17a4b'},
-{id:'khakis',name:'Khakis + belt',slot:'bottom',shape:'pants',color:'#bda77c'},
-{id:'slacks',name:'Dress pants',slot:'bottom',shape:'pants',color:'#303d53'},
-{id:'sweats',name:'Sweatsuit',slot:'full',shape:'sweats',color:'#7d8394'},
-{id:'swim',name:'Swim attire',slot:'full',shape:'swim',color:'#17a1b7'},
-{id:'suit',name:'Pantsuit',slot:'full',shape:'suit',color:'#263e68'},
-{id:'sneakers',name:'Sneakers',slot:'shoes',shape:'shoes',color:'#e3e9ed'},
-{id:'dressshoes',name:'Dress shoes',slot:'shoes',shape:'shoes',color:'#392c29'},
-{id:'boots',name:'Safety boots',slot:'shoes',shape:'boots',color:'#8a592e'},
-{id:'sandals',name:'Sandals',slot:'shoes',shape:'sandals',color:'#d9b17c'},
-{id:'ppe',name:'Hard hat + safety glasses',slot:'accessory',shape:'ppe',color:'#ffc94f'},
-{id:'scrubs',name:'Scrubs',slot:'full',shape:'scrubs',color:'#347f85'}
+"use strict";
+
+const NS = "http://www.w3.org/2000/svg";
+
+const clothes = [
+  {id:"tank",name:"Tank top",slot:"top",shape:"tank",color:"#e99385"},
+  {id:"tee",name:"T-shirt",slot:"top",shape:"tee",color:"#327fef"},
+  {id:"collar",name:"Collared shirt",slot:"top",shape:"collar",color:"#d7ecfa"},
+  {id:"blazer",name:"Blazer",slot:"top",shape:"blazer",color:"#243d65"},
+  {id:"dress",name:"Dress",slot:"full",shape:"dress",color:"#7c9b06"},
+  {id:"suit",name:"Pantsuit",slot:"full",shape:"suit",color:"#263e68"},
+  {id:"sweats",name:"Sweatsuit",slot:"full",shape:"sweats",color:"#7d8394"},
+  {id:"swim",name:"Swim attire",slot:"full",shape:"swim",color:"#17a1b7"},
+  {id:"scrubs",name:"Scrubs",slot:"full",shape:"scrubs",color:"#347f85"},
+  {id:"jeans",name:"Jeans",slot:"bottom",shape:"pants",color:"#4778ae"},
+  {id:"khakis",name:"Khakis + belt",slot:"bottom",shape:"pants",color:"#bda77c"},
+  {id:"slacks",name:"Dress pants",slot:"bottom",shape:"pants",color:"#303d53"},
+  {id:"shorts",name:"Shorts",slot:"bottom",shape:"shorts",color:"#b17a4b"},
+  {id:"skirt",name:"Knee-length skirt",slot:"bottom",shape:"skirt",color:"#243d65"},
+  {id:"shortskirt",name:"Short skirt",slot:"bottom",shape:"shortskirt",color:"#e99385"},
+  {id:"sneakers",name:"Sneakers",slot:"shoes",shape:"shoes",color:"#e3e9ed"},
+  {id:"dressshoes",name:"Dress shoes",slot:"shoes",shape:"shoes",color:"#392c29"},
+  {id:"boots",name:"Safety boots",slot:"shoes",shape:"boots",color:"#8a592e"},
+  {id:"sandals",name:"Sandals",slot:"shoes",shape:"sandals",color:"#d9b17c"},
+  {id:"ppe",name:"Hard hat + glasses",slot:"accessory",shape:"ppe",color:"#ffc94f"}
 ];
-const situations={
-office:{desc:'You have an interview for an administrative position. The invitation does not specify a dress code.',good:['collar','blazer','dress','suit','skirt','slacks','khakis','dressshoes'],avoid:['tank','shorts','shortskirt','sweats','swim','sandals'],explain:'For a typical office interview, neat business-casual or professional clothing is a safe starting point. Check the employer’s guidance when available.'},
-trade:{desc:'You will tour an active industrial worksite. The host requires a hard hat, safety glasses, and protective footwear.',good:['ppe','boots','jeans','khakis','slacks','collar','tee'],avoid:['sandals','shorts','shortskirt','skirt','dress','swim'],explain:'At an active worksite, required protective equipment and safe clothing matter more than formal business attire. Confirm site-specific PPE requirements.'},
-advising:{desc:'You have a video appointment with a university transfer advisor from home.',good:['collar','blazer','dress','suit','tee','slacks','khakis','skirt'],avoid:['swim'],explain:'A virtual advising meeting generally calls for neat, comfortable, appropriate clothing and a distraction-free setup. Formal business attire is usually unnecessary.'},
-health:{desc:'You are visiting a clinical training site. The program requires clean scrubs and closed-toe shoes.',good:['scrubs','sneakers','dressshoes'],avoid:['sandals','swim','shorts','shortskirt','dress'],explain:'Clinical settings may have specific uniform, hygiene, and footwear rules. Follow the site’s instructions rather than assuming office attire is appropriate.'},
-casual:{desc:'You are attending orientation at a workplace that explicitly allows clean jeans and casual shirts. No safety equipment is required.',good:['tee','collar','jeans','khakis','sneakers','dressshoes'],avoid:['swim','sandals'],explain:'Professionalism is not always formalwear. When a workplace permits casual clothing, clean jeans and a neat shirt can be appropriate.'}
+
+const situations = {
+  office:{
+    desc:"You are interviewing for an administrative position. No dress code was provided.",
+    explain:"Neat business-casual or professional clothing is generally appropriate for an office interview."
+  },
+  trade:{
+    desc:"You are touring an active worksite. A hard hat, safety glasses, and protective boots are required.",
+    explain:"Required protective equipment and safe clothing take priority over formal attire."
+  },
+  advising:{
+    desc:"You are meeting a university transfer advisor by video from home.",
+    explain:"Neat everyday clothing is appropriate for most virtual advising meetings. Formal attire is usually unnecessary."
+  },
+  health:{
+    desc:"You are visiting a clinical training site requiring clean scrubs and closed-toe shoes.",
+    explain:"Clinical sites may require specific uniforms and footwear. Always follow their instructions."
+  },
+  casual:{
+    desc:"Your workplace permits clean jeans and casual shirts for orientation.",
+    explain:"Professionalism does not always require formal clothing. Follow the workplace's dress code."
+  }
 };
-let character='girl',selected={top:null,bottom:null,shoes:null,accessory:null};
-const $=id=>document.getElementById(id),svgNS='http://www.w3.org/2000/svg';
-function el(tag,attrs={},parent){const node=document.createElementNS(svgNS,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,v));if(parent)parent.appendChild(node);return node}
-function garment(parent,item,mini=false){const g=el('g',{},parent),c=item.color,stroke='#26394d',shape=item.shape;
-const p=(d,fill=c)=>el('path',{d,fill,stroke,'stroke-width':mini?2:1.7,'stroke-linejoin':'round'},g);
-if(['tank','tee','collar','blazer'].includes(shape)){let sleeves=shape==='tank'?'M90 111 L109 105 L114 123 L104 130 L102 196 L158 196 L156 130 L146 123 L151 105 L170 111 L180 143 L166 150 L161 125 L161 202 L99 202 L99 125 L94 150 L80 143 Z':'M90 111 L108 105 L151 105 L170 111 L187 153 L168 160 L158 134 L161 202 L99 202 L102 134 L92 160 L73 153 Z';p(sleeves);if(shape==='collar'||shape==='blazer'){p('M110 105 L130 134 L119 145 L103 112 Z','#fff');p('M150 105 L130 134 L141 145 L157 112 Z','#fff');if(shape==='blazer'){el('line',{x1:130,y1:133,x2:130,y2:200,stroke:'#d9e3ee','stroke-width':2},g);el('circle',{cx:135,cy:162,r:2.3,fill:'#ffc94f'},g)}}}
-if(['pants','shorts'].includes(shape)){const bottom=shape==='shorts'?252:343;p(`M100 195 L160 195 L162 238 L151 ${bottom} L132 ${bottom} L129 249 L126 ${bottom} L107 ${bottom} L98 238 Z`);if(item.id==='khakis'){el('rect',{x:99,y:202,width:62,height:7,fill:'#493c32'},g);el('rect',{x:127,y:201,width:8,height:9,fill:'#d4b356'},g)}}
-if(shape==='skirt'||shape==='skirtlong'){p(`M101 195 L159 195 L${shape==='skirt'?175:182} ${shape==='skirt'?260:302} L${shape==='skirt'?85:78} ${shape==='skirt'?260:302} Z`)}
-if(shape==='dress'){p('M108 107 L152 107 L164 138 L156 193 L185 291 L75 291 L104 193 L96 138 Z');el('line',{x1:101,y1:194,x2:159,y2:194,stroke:'#fff','stroke-width':3},g)}
-if(['suit','sweats','scrubs'].includes(shape)){p('M91 110 L109 105 L151 105 L169 110 L187 153 L168 160 L158 133 L161 202 L99 202 L102 133 L92 160 L73 153 Z');p('M100 200 L160 200 L162 240 L151 343 L132 343 L129 246 L126 343 L107 343 L98 240 Z');if(shape==='suit'){p('M109 105 L130 139 L119 147 Z','#fff');p('M151 105 L130 139 L141 147 Z','#fff')}if(shape==='sweats'){el('line',{x1:130,y1:112,x2:130,y2:196,stroke:'#fff','stroke-width':3},g)}if(shape==='scrubs'){p('M112 105 L130 127 L148 105 Z','#e8f6f6')}}
-if(shape==='swim'){p('M106 108 L154 108 L159 188 L101 188 Z');p('M100 192 L160 192 L157 239 L132 239 L130 216 L128 239 L103 239 Z')}
-if(shape==='shoes'||shape==='boots'||shape==='sandals'){let d=shape==='boots'?'M104 333 L126 333 L126 376 L96 376 L96 357 Z':'M105 350 L125 350 L127 374 L96 374 L96 363 Z';p(d);p(shape==='boots'?'M134 333 L156 333 L164 357 L164 376 L134 376 Z':'M135 350 L155 350 L164 363 L164 374 L133 374 Z');if(shape==='sandals'){el('line',{x1:99,y1:365,x2:124,y2:365,stroke:'#fff','stroke-width':3},g);el('line',{x1:136,y1:365,x2:161,y2:365,stroke:'#fff','stroke-width':3},g)}}
-if(shape==='ppe'){p('M102 57 Q103 29 130 29 Q157 29 158 57 L164 64 L96 64 Z');el('rect',{x:105,y:71,width:22,height:11,rx:3,fill:'#a5d8e8',stroke:'#27394d'},g);el('rect',{x:133,y:71,width:22,height:11,rx:3,fill:'#a5d8e8',stroke:'#27394d'},g);el('line',{x1:127,y1:76,x2:133,y2:76,stroke:'#27394d','stroke-width':3},g)}
-return g}
-function render(){const s=$('avatar');s.replaceChildren();const bg=el('g',{},s);el('ellipse',{cx:130,cy:385,rx:70,ry:9,fill:'#d5e4ef'},bg);const skin=character==='girl'?'#bb805e':'#986448';
-// body silhouette
-el('path',{d:'M112 99 L148 99 L165 115 L176 189 L158 198 L151 157 L157 237 L151 357 L134 357 L130 245 L126 357 L109 357 L103 237 L109 157 L102 198 L84 189 L95 115 Z',fill:skin,stroke:'#754b36','stroke-width':1.4},s);
-el('rect',{x:119,y:88,width:22,height:24,rx:8,fill:skin},s);
-if(character==='girl')el('path',{d:'M103 59 Q100 24 130 21 Q163 24 159 63 L168 121 L150 116 L146 70 L114 70 L110 116 L93 121 Z',fill:'#382d2d'},s);
-el('ellipse',{cx:130,cy:65,rx:27,ry:36,fill:skin,stroke:'#754b36','stroke-width':1.3},s);
-if(character==='boy')el('path',{d:'M103 55 Q100 27 130 28 Q159 28 157 55 L149 44 Q128 37 109 47 Z',fill:'#292b31'},s);
-el('circle',{cx:120,cy:67,r:2.1,fill:'#2c2928'},s);el('circle',{cx:140,cy:67,r:2.1,fill:'#2c2928'},s);el('path',{d:'M122 84 Q130 89 138 84',fill:'none',stroke:'#774b42','stroke-width':1.6},s);
-// baseline garments when none chosen
-if(!selected.top&&!selected.bottom){garment(s,clothes.find(x=>x.id==='tee'));garment(s,clothes.find(x=>x.id==='shorts'))}
-if(selected.bottom)garment(s,selected.bottom);if(selected.top)garment(s,selected.top);if(selected.shoes)garment(s,selected.shoes);if(selected.accessory)garment(s,selected.accessory);
-const pieces=[selected.top,selected.bottom,selected.shoes,selected.accessory].filter(Boolean);$('outfit-summary').textContent=pieces.length?'Wearing: '+pieces.map(x=>x.name).join(' • '):'Choose your clothing to begin.';
-document.querySelectorAll('.item').forEach(b=>b.setAttribute('aria-pressed',String(pieces.some(x=>x.id===b.dataset.id))));}
-function apply(id){const item=clothes.find(x=>x.id===id);if(!item)return;if(item.slot==='full'){selected.top=item;selected.bottom=null}else if(item.slot==='top'){selected.top=item}else if(item.slot==='bottom'){if(selected.top?.slot==='full')selected.top=null;selected.bottom=item}else selected[item.slot]=item;$('feedback').hidden=true;render()}
-function iconFor(item){const s=document.createElementNS(svgNS,'svg');s.setAttribute('viewBox','60 20 140 360');s.setAttribute('aria-hidden','true');garment(s,item,true);return s}
-function populate(){const closet=$('closet');clothes.forEach(item=>{const b=document.createElement('button');b.type='button';b.className='item';b.draggable=true;b.dataset.id=item.id;b.setAttribute('aria-label','Put on '+item.name);b.setAttribute('aria-pressed','false');b.append(iconFor(item));const name=document.createElement('span');name.textContent=item.name;b.append(name);b.addEventListener('click',()=>apply(item.id));b.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',item.id);e.dataTransfer.effectAllowed='copy'});closet.append(b)})}
-function evaluate(){const sc=$('scenario').value,s=situations[sc],top=selected.top,bottom=selected.bottom,shoes=selected.shoes,accessory=selected.accessory;const all=[top,bottom,shoes,accessory].filter(Boolean),ids=all.map(x=>x.id);let problems=[];if(!top)problems.push('Choose a top or one-piece outfit.');if(!bottom&&top?.slot!=='full')problems.push('Choose a bottom.');if(!shoes)problems.push('Choose footwear.');if(sc==='trade'){if(!ids.includes('ppe'))problems.push('Add the required hard hat and safety glasses.');if(!ids.includes('boots'))problems.push('Choose protective safety boots.');if(!['jeans','khakis','slacks'].includes(bottom?.id))problems.push('Choose long pants suitable for the worksite.');if(top&&['tank','dress','suit','swim','sweats'].includes(top.id))problems.push('Choose a practical shirt for the site.')}else if(sc==='health'){if(top?.id!=='scrubs')problems.push('This clinical site specifically requires scrubs.');if(!['sneakers','dressshoes'].includes(shoes?.id))problems.push('Choose closed-toe footwear.')}else if(sc==='office'){if(top&&['tank','tee','sweats','swim'].includes(top.id))problems.push('Consider a collared shirt, blouse-style top, dress, blazer, or suit.');if(bottom&&['shorts','shortskirt','jeans'].includes(bottom.id))problems.push('Choose dress pants, khakis, or an appropriate skirt.');if(shoes&&['sandals','boots'].includes(shoes.id))problems.push('Consider dress shoes for this office interview.')}else if(sc==='advising'){if(top&&['swim','sweats'].includes(top.id))problems.push('Choose a neat everyday top rather than swim attire or loungewear.')}else if(sc==='casual'){if(top&&['swim','sweats'].includes(top.id))problems.push('Choose a clean casual shirt rather than swim attire or loungewear.');if(shoes?.id==='sandals')problems.push('Choose shoes suitable for the workplace.')}const good=problems.length===0;const box=$('feedback');box.hidden=false;box.classList.toggle('needswork',!good);box.replaceChildren();const h=document.createElement('strong');h.textContent=good?'Appropriate for this situation!':'Review your outfit and try again.';box.append(h);if(problems.length){const ul=document.createElement('ul');problems.forEach(p=>{const li=document.createElement('li');li.textContent=p;ul.append(li)});box.append(ul)}const p=document.createElement('p');p.textContent=s.explain;box.append(p)}
-function reset(){selected={top:null,bottom:null,shoes:null,accessory:null};$('feedback').hidden=true;render()}
-$('girl').addEventListener('click',()=>{character='girl';$('girl').classList.add('selected');$('boy').classList.remove('selected');$('girl').setAttribute('aria-pressed','true');$('boy').setAttribute('aria-pressed','false');render()});$('boy').addEventListener('click',()=>{character='boy';$('boy').classList.add('selected');$('girl').classList.remove('selected');$('boy').setAttribute('aria-pressed','true');$('girl').setAttribute('aria-pressed','false');render()});$('scenario').addEventListener('change',()=>{$('scenario-desc').textContent=situations[$('scenario').value].desc;reset()});$('reset').addEventListener('click',reset);$('check').addEventListener('click',evaluate);$('next').addEventListener('click',()=>{const s=$('scenario');s.selectedIndex=(s.selectedIndex+1)%s.options.length;$('scenario-desc').textContent=situations[s.value].desc;reset()});$('stage').addEventListener('dragover',e=>{e.preventDefault();$('stage').classList.add('dragover')});$('stage').addEventListener('dragleave',()=>{$('stage').classList.remove('dragover')});$('stage').addEventListener('drop',e=>{e.preventDefault();$('stage').classList.remove('dragover');apply(e.dataTransfer.getData('text/plain'))});populate();$('scenario-desc').textContent=situations.office.desc;render();
-</script></body></html>
+
+let character = "girl";
+let category = "tops";
+let selected = {top:null,bottom:null,shoes:null,accessory:null};
+
+const $ = id => document.getElementById(id);
+
+function svgElement(tag,attrs,parent) {
+  const node = document.createElementNS(NS,tag);
+  Object.entries(attrs).forEach(([key,value]) =>
+    node.setAttribute(key,value)
+  );
+  if(parent) parent.appendChild(node);
+  return node;
+}
+
+function path(parent,d,fill,stroke="none",width=1) {
+  return svgElement("path",{
+    d,fill,stroke,"stroke-width":width,
+    "stroke-linejoin":"round"
+  },parent);
+}
+
+function garment(parent,item) {
+  const g = svgElement("g",{},parent);
+  const c = item.color;
+  const shape = item.shape;
+  const p = (d,color=c) =>
+    path(g,d,color,"#34445a",1.3);
+
+  if(["tank","tee","collar","blazer"].includes(shape)) {
+    if(shape==="tank") {
+      p("M109 105 L120 105 L130 117 L140 105 L151 105 L154 199 L106 199 Z");
+    } else {
+      p("M108 105 L94 111 L74 153 L91 161 L104 137 L102 199 L158 199 L156 137 L169 161 L186 153 L166 111 L152 105 Z");
+    }
+    if(shape==="collar") {
+      p("M110 105 L130 126 L119 136 Z","#ffffff");
+      p("M150 105 L130 126 L141 136 Z","#ffffff");
+      svgElement("line",{
+        x1:130,y1:132,x2:130,y2:196,
+        stroke:"#7795ac","stroke-width":2
+      },g);
+    }
+    if(shape==="blazer") {
+      p("M110 105 L130 143 L119 151 Z","#ffffff");
+      p("M150 105 L130 143 L141 151 Z","#ffffff");
+      svgElement("line",{
+        x1:130,y1:143,x2:130,y2:196,
+        stroke:"#d9e3ee","stroke-width":2
+      },g);
+    }
+  }
+
+  if(shape==="pants" || shape==="shorts") {
+    const y = shape==="shorts" ? 257 : 350;
+    p(`M101 195 L159 195 L163 239 L153 ${y}
+       L133 ${y} L130 249 L127 ${y}
+       L107 ${y} L97 239 Z`);
+    if(item.id==="khakis") {
+      svgElement("rect",{
+        x:99,y:202,width:62,height:7,fill:"#493c32"
+      },g);
+      svgElement("rect",{
+        x:127,y:201,width:8,height:9,fill:"#d4b356"
+      },g);
+    }
+  }
+
+  if(shape==="skirt" || shape==="shortskirt") {
+    const y = shape==="skirt" ? 302 : 259;
+    const spread = shape==="skirt" ? 183 : 174;
+    p(`M102 195 L158 195 L${spread} ${y}
+       L${260-spread} ${y} Z`);
+  }
+
+  if(shape==="dress") {
+    p("M109 106 L151 106 L165 137 L157 194 L184 291 L76 291 L103 194 L95 137 Z");
+    svgElement("line",{
+      x1:103,y1:193,x2:157,y2:193,
+      stroke:"#ffffff","stroke-width":3
+    },g);
+  }
+
+  if(["suit","sweats","scrubs"].includes(shape)) {
+    p("M108 105 L93 111 L74 153 L91 161 L103 136 L100 202 L160 202 L157 136 L169 161 L186 153 L167 111 L152 105 Z");
+    p("M101 200 L159 200 L163 239 L153 349 L133 349 L130 249 L127 349 L107 349 L97 239 Z");
+    if(shape==="suit") {
+      p("M110 105 L130 140 L119 148 Z","#ffffff");
+      p("M150 105 L130 140 L141 148 Z","#ffffff");
+    }
+    if(shape==="scrubs") {
+      p("M111 105 L130 127 L149 105 Z","#e8f6f6");
+    }
+    if(shape==="sweats") {
+      svgElement("line",{
+        x1:130,y1:115,x2:130,y2:197,
+        stroke:"#ffffff","stroke-width":3
+      },g);
+    }
+  }
+
+  if(shape==="swim") {
+    p("M106 108 L154 108 L159 188 L101 188 Z");
+    p("M101 192 L159 192 L156 238 L133 238 L130 216 L127 238 L104 238 Z");
+  }
+
+  if(["shoes","boots","sandals"].includes(shape)) {
+    const top = shape==="boots" ? 331 : 350;
+    p(`M105 ${top} L125 ${top} L127 375
+       L96 375 L96 363 Z`);
+    p(`M135 ${top} L155 ${top} L164 363
+       L164 375 L133 375 Z`);
+    if(shape==="sandals") {
+      [106,138].forEach(x =>
+        svgElement("line",{
+          x1:x,y1:365,x2:x+18,y2:365,
+          stroke:"#ffffff","stroke-width":3
+        },g)
+      );
+    }
+  }
+
+  if(shape==="ppe") {
+    p("M102 56 Q104 29 130 29 Q156 29 158 56 L164 64 L96 64 Z");
+    [105,133].forEach(x =>
+      svgElement("rect",{
+        x,y:71,width:22,height:11,rx:3,
+        fill:"#a5d8e8",stroke:"#27394d"
+      },g)
+    );
+    svgElement("line",{
+      x1:127,y1:76,x2:133,y2:76,
+      stroke:"#27394d","stroke-width":3
+    },g);
+  }
+  return g;
+}
+
+function drawCharacter() {
+  const svg = $("avatar");
+  svg.replaceChildren();
+
+  svgElement("ellipse",{
+    cx:130,cy:385,rx:65,ry:8,fill:"#d5e4ef"
+  },svg);
+
+  const skin = character==="girl" ? "#bb805e" : "#986448";
+  const outline = "#754b36";
+
+  // Arms are separate from the torso with visible definition.
+  path(svg,
+    "M109 105 Q97 108 93 124 L77 180 Q73 191 80 195 Q88 199 93 188 L111 147 Z",
+    skin,outline,1.5
+  );
+  path(svg,
+    "M151 105 Q163 108 167 124 L183 180 Q187 191 180 195 Q172 199 167 188 L149 147 Z",
+    skin,outline,1.5
+  );
+
+  path(svg,
+    "M111 102 L149 102 L158 127 L154 201 L158 238 L151 357 L135 357 L130 249 L125 357 L109 357 L102 238 L106 201 L102 127 Z",
+    skin,outline,1.5
+  );
+
+  svgElement("rect",{
+    x:119,y:88,width:22,height:24,rx:8,fill:skin
+  },svg);
+
+  // Back hair is drawn behind the face.
+  if(character==="girl") {
+    path(svg,
+      "M101 63 Q96 20 130 20 Q165 20 160 63 L165 107 Q155 114 151 105 L151 67 L109 67 L109 105 Q101 114 95 106 Z",
+      "#382d2d"
+    );
+  }
+
+  svgElement("ellipse",{
+    cx:130,cy:65,rx:27,ry:36,
+    fill:skin,stroke:outline,"stroke-width":1.3
+  },svg);
+
+  if(character==="girl") {
+    path(svg,"M104 49 Q99 69 102 93 L108 104 L112 65 Z","#382d2d");
+    path(svg,"M156 49 Q161 69 158 93 L152 104 L148 65 Z","#382d2d");
+  } else {
+    path(svg,
+      "M103 55 Q100 27 130 28 Q159 28 157 55 L149 44 Q128 37 109 47 Z",
+      "#292b31"
+    );
+  }
+
+  [120,140].forEach(x =>
+    svgElement("circle",{
+      cx:x,cy:67,r:2.1,fill:"#2c2928"
+    },svg)
+  );
+  path(svg,"M122 84 Q130 89 138 84",
+       "none","#774b42",1.6);
+
+  // Default outfit before student selections.
+  if(!selected.top && !selected.bottom) {
+    garment(svg,clothes.find(x=>x.id==="tee"));
+    garment(svg,clothes.find(x=>x.id==="shorts"));
+  }
+
+  if(selected.bottom) garment(svg,selected.bottom);
+  if(selected.top) garment(svg,selected.top);
+  if(selected.shoes) garment(svg,selected.shoes);
+  if(selected.accessory) garment(svg,selected.accessory);
+
+  const pieces = Object.values(selected).filter(Boolean);
+
+  $("outfit-summary").textContent = pieces.length
+    ? "Wearing: " + pieces.map(x=>x.name).join(" • ")
+    : "Choose your clothing to begin.";
+
+  document.querySelectorAll(".item").forEach(button=>{
+    button.setAttribute(
+      "aria-pressed",
+      String(pieces.some(x=>x.id===button.dataset.id))
+    );
+  });
+}
+
+function applyClothing(id) {
+  const item = clothes.find(x=>x.id===id);
+  if(!item) return;
+
+  if(item.slot==="full") {
+    selected.top=item;
+    selected.bottom=null;
+  } else if(item.slot==="top") {
+    selected.top=item;
+  } else if(item.slot==="bottom") {
+    if(selected.top && selected.top.slot==="full")
+      selected.top=null;
+    selected.bottom=item;
+  } else {
+    selected[item.slot]=item;
+  }
+
+  $("feedback").hidden=true;
+  drawCharacter();
+}
+
+function clothingIcon(item) {
+  const svg = document.createElementNS(NS,"svg");
+  const views = {
+    top:"65 95 130 125",
+    bottom:"73 184 114 175",
+    full:"65 92 130 265",
+    shoes:"85 315 90 70",
+    accessory:"85 20 90 85"
+  };
+  svg.setAttribute("viewBox",views[item.slot]);
+  svg.setAttribute("aria-hidden","true");
+  garment(svg,item);
+  return svg;
+}
+
+function populateCloset() {
+  const closet = $("closet");
+  closet.replaceChildren();
+
+  const visible = clothes.filter(item=>{
+    if(category==="tops")
+      return ["top","full"].includes(item.slot);
+    if(category==="bottoms")
+      return item.slot==="bottom";
+    return ["shoes","accessory"].includes(item.slot);
+  });
+
+  visible.forEach(item=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="item";
+    button.draggable=true;
+    button.dataset.id=item.id;
+    button.setAttribute("aria-label","Put on "+item.name);
+    button.setAttribute("aria-pressed","false");
+
+    button.appendChild(clothingIcon(item));
+
+    const label=document.createElement("span");
+    label.textContent=item.name;
+    button.appendChild(label);
+
+    button.addEventListener("click",()=>{
+      applyClothing(item.id);
+    });
+
+    button.addEventListener("dragstart",event=>{
+      event.dataTransfer.setData("text/plain",item.id);
+      event.dataTransfer.effectAllowed="copy";
+    });
+
+    closet.appendChild(button);
+  });
+
+  drawCharacter();
+}
+
+function checkOutfit() {
+  const scenario=$("scenario").value;
+  const top=selected.top;
+  const bottom=selected.bottom;
+  const shoes=selected.shoes;
+  const accessory=selected.accessory;
+  const problems=[];
+
+  if(!top) problems.push("Choose a top or complete outfit.");
+  if(!bottom && top?.slot!=="full")
+    problems.push("Choose a bottom.");
+  if(!shoes) problems.push("Choose footwear.");
+
+  if(scenario==="office") {
+    if(["tank","tee","sweats","swim"].includes(top?.id))
+      problems.push("Consider a collared shirt, blazer, dress, or suit.");
+    if(["jeans","shorts","shortskirt"].includes(bottom?.id))
+      problems.push("Consider dress pants, khakis, or an appropriate skirt.");
+    if(["sandals","boots"].includes(shoes?.id))
+      problems.push("Consider dress shoes for this interview.");
+  }
+
+  if(scenario==="trade") {
+    if(accessory?.id!=="ppe")
+      problems.push("Add the required hard hat and safety glasses.");
+    if(shoes?.id!=="boots")
+      problems.push("Choose protective safety boots.");
+    if(!["jeans","khakis","slacks"].includes(bottom?.id))
+      problems.push("Choose long pants suitable for the worksite.");
+    if(["tank","dress","suit","swim","sweats"].includes(top?.id))
+      problems.push("Choose a practical shirt for the worksite.");
+  }
+
+  if(scenario==="health") {
+    if(top?.id!=="scrubs")
+      problems.push("This clinical site requires scrubs.");
+    if(!["sneakers","dressshoes"].includes(shoes?.id))
+      problems.push("Choose closed-toe footwear.");
+  }
+
+  if(scenario==="advising") {
+    if(["swim","sweats"].includes(top?.id))
+      problems.push("Choose a neat everyday top.");
+  }
+
+  if(scenario==="casual") {
+    if(["swim","sweats"].includes(top?.id))
+      problems.push("Choose a clean casual shirt.");
+    if(shoes?.id==="sandals")
+      problems.push("Consider footwear appropriate for the workplace.");
+  }
+
+  const box=$("feedback");
+  box.hidden=false;
+  box.classList.toggle("needswork",problems.length>0);
+  box.replaceChildren();
+
+  const heading=document.createElement("strong");
+  heading.textContent=problems.length===0
+    ? "Appropriate for this situation!"
+    : "Review your outfit and try again.";
+  box.appendChild(heading);
+
+  if(problems.length) {
+    const list=document.createElement("ul");
+    problems.forEach(message=>{
+      const li=document.createElement("li");
+      li.textContent=message;
+      list.appendChild(li);
+    });
+    box.appendChild(list);
+  }
+
+  const explanation=document.createElement("p");
+  explanation.textContent=situations[scenario].explain;
+  box.appendChild(explanation);
+}
+
+function resetOutfit() {
+  selected={top:null,bottom:null,shoes:null,accessory:null};
+  $("feedback").hidden=true;
+  drawCharacter();
+}
+
+function chooseCharacter(value) {
+  character=value;
+  ["girl","boy"].forEach(id=>{
+    const active=id===value;
+    $(id).classList.toggle("selected",active);
+    $(id).setAttribute("aria-pressed",String(active));
+  });
+  drawCharacter();
+}
+
+$("girl").addEventListener("click",()=>chooseCharacter("girl"));
+$("boy").addEventListener("click",()=>chooseCharacter("boy"));
+
+$("scenario").addEventListener("change",()=>{
+  $("scenario-desc").textContent=
+    situations[$("scenario").value].desc;
+  resetOutfit();
+});
+
+$("reset").addEventListener("click",resetOutfit);
+$("check").addEventListener("click",checkOutfit);
+
+$("next").addEventListener("click",()=>{
+  const select=$("scenario");
+  select.selectedIndex=(select.selectedIndex+1)%select.options.length;
+  $("scenario-desc").textContent=situations[select.value].desc;
+  resetOutfit();
+});
+
+$("stage").addEventListener("dragover",event=>{
+  event.preventDefault();
+  $("stage").classList.add("dragover");
+});
+
+$("stage").addEventListener("dragleave",()=>{
+  $("stage").classList.remove("dragover");
+});
+
+$("stage").addEventListener("drop",event=>{
+  event.preventDefault();
+  $("stage").classList.remove("dragover");
+  applyClothing(event.dataTransfer.getData("text/plain"));
+});
+
+document.querySelectorAll(".category-tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    category=tab.dataset.category;
+
+    document.querySelectorAll(".category-tab").forEach(other=>{
+      const active=other===tab;
+      other.classList.toggle("selected",active);
+      other.setAttribute("aria-selected",String(active));
+    });
+
+    populateCloset();
+  });
+});
+
+$("scenario-desc").textContent=situations.office.desc;
+populateCloset();
+</script>
+</body>
+</html>
