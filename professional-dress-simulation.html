@@ -23,7 +23,7 @@ body {
   line-height:1.45;
 }
 .wrap {
-  max-width:950px;
+  max-width:1400px;
   margin:auto;
   padding:6px;
 }
@@ -42,7 +42,7 @@ body {
 }
 .layout {
   display:grid;
-  grid-template-columns:1fr 1.35fr 1.1fr;
+  grid-template-columns:1fr 1.5fr 1.2fr;
   gap:8px;
   margin-top:8px;
   align-items:start;
@@ -524,7 +524,6 @@ function drawCharacter() {
   const skin = character==="girl" ? "#bb805e" : "#986448";
   const outline = "#754b36";
 
-  // Clearly defined arms, separate from the torso.
   path(svg,
     "M109 105 Q97 108 93 124 L77 180 Q73 191 80 195 Q88 199 93 188 L111 147 Z",
     skin,outline,1.5
@@ -543,7 +542,6 @@ function drawCharacter() {
     x:119,y:88,width:22,height:24,rx:8,fill:skin
   },svg);
 
-  // Back hair is drawn behind the face.
   if(character==="girl") {
     path(svg,
       "M101 63 Q96 20 130 20 Q165 20 160 63 L165 107 Q155 114 151 105 L151 67 L109 67 L109 105 Q101 114 95 106 Z",
@@ -574,7 +572,6 @@ function drawCharacter() {
   path(svg,"M122 84 Q130 89 138 84",
        "none","#774b42",1.6);
 
-  // Default clothing.
   if(!selected.top && !selected.bottom) {
     garment(svg,clothes.find(x=>x.id==="tee"));
     garment(svg,clothes.find(x=>x.id==="shorts"));
