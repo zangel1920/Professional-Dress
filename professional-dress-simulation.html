@@ -243,7 +243,7 @@ select:focus-visible {
   <div class="tag">
     <strong>Instructions:</strong> Select or drag clothing
     onto the character. Choose a top, bottom, and shoes.
-    One-piece outfits replace the top and bottom.
+    Complete outfits replace the top and bottom.
   </div>
 </section>
 
@@ -258,7 +258,7 @@ select:focus-visible {
             data-category="tops"
             role="tab"
             aria-selected="true">
-      Tops & Outfits
+      Tops
     </button>
 
     <button class="category-tab"
@@ -269,10 +269,17 @@ select:focus-visible {
     </button>
 
     <button class="category-tab"
+            data-category="outfits"
+            role="tab"
+            aria-selected="false">
+      Outfits
+    </button>
+
+    <button class="category-tab"
             data-category="shoes"
             role="tab"
             aria-selected="false">
-      Shoes & Safety
+      Shoes &amp; Safety
     </button>
   </div>
 
@@ -638,9 +645,11 @@ function populateCloset() {
 
   const visible = clothes.filter(item=>{
     if(category==="tops")
-      return ["top","full"].includes(item.slot);
+      return item.slot==="top";
     if(category==="bottoms")
       return item.slot==="bottom";
+    if(category==="outfits")
+      return item.slot==="full";
     return ["shoes","accessory"].includes(item.slot);
   });
 
