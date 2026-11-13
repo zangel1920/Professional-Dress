@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ethical Decision-Making Challenge | COLS 1200</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#202b38;background:#fff}*{box-sizing:border-box}body{margin:0;padding:14px}.wrap{max-width:760px;margin:auto}h1{color:#003d78;font-size:1.35rem;margin:0 0 8px}p{line-height:1.5}.sub{margin:0 0 12px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.9rem}.track{height:6px;background:#dce9f7;border-radius:4px;margin:8px 0 16px}.fill{height:100%;background:#327fef;border-radius:4px;transition:width .2s}.scenario{font-size:1.08rem;color:#003d78;margin:0 0 8px}.prompt{margin:0 0 12px}.options{display:grid;gap:8px}button{font:inherit;cursor:pointer}button.option{display:block;text-align:left;width:100%;border:1px solid #9aaec4;background:#fff;color:#172b43;border-radius:6px;padding:10px 12px;line-height:1.4}button.option:hover:not(:disabled),button.option:focus-visible{outline:2px solid #327fef;outline-offset:1px}button.option:disabled{cursor:default}button.option.selected{border:2px solid #003d78;background:#eef6ff}button.option:disabled:not(.selected){opacity:.75}.feedback{margin:12px 0 0;border-top:5px double #327fef;padding-top:10px}.feedback strong{color:#003d78}.actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}.primary{border:0;background:#003d78;color:white;border-radius:5px;padding:10px 16px;font-weight:bold}.secondary{border:1px solid #003d78;color:#003d78;background:white;border-radius:5px;padding:10px 16px}.primary:focus-visible,.secondary:focus-visible{outline:3px solid #327fef;outline-offset:2px}.hidden{display:none}footer{font-size:.85rem;color:#465465;margin-top:14px}hr{border:0;border-top:5px double #327fef;margin:12px 0}@media(max-width:480px){body{padding:10px}.top{font-size:.83rem}h1{font-size:1.2rem}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<h1>Ethical Decision-Making Challenge</h1>
+<p class="sub">Read each situation, choose how you would respond, and review the feedback. This four-scenario practice activity is not graded.</p>
+<div id="activity">
+<div class="top"><strong id="progressLabel">Scenario 1 of 4</strong><span id="pathway">Workplace</span></div>
+<div class="track" aria-hidden="true"><div class="fill" id="progressBar" style="width:25%"></div></div>
+<h2 class="scenario" id="scenarioTitle"></h2>
+<p class="prompt" id="scenarioPrompt"></p>
+<div class="options" id="options" role="group" aria-label="Choose a response"></div>
+<div id="feedback" class="feedback hidden" role="status" aria-live="polite"></div>
+<div class="actions"><button id="next" class="primary hidden" type="button">Next scenario</button></div>
+</div>
+<div id="done" class="hidden" role="status" aria-live="polite">
+<hr><h2 class="scenario">Challenge complete</h2>
+<p>You've explored four situations involving honesty, accountability, academic integrity, and shared responsibility. Ethical decisions involve considering the facts, communicating respectfully, and taking responsibility for your actions.</p>
+<button id="restart" class="secondary" type="button">Try again</button>
+</div>
+<footer>COLS 1200 | Lesson 4.1: Ethics and Professional Responsibility</footer>
+</main>
+<script>
+const scenarios=[
+{type:'Workplace',title:'1. An Inaccurate Report',prompt:'Your supervisor needs a report by 3 PM. You discover that some information is inaccurate, and correcting it could delay submission. What do you do?',options:[
+['Submit the report as it is so you meet the deadline.','Meeting a deadline does not justify knowingly submitting inaccurate information.'],
+['Tell your supervisor about the errors and discuss a correction plan.','This is the strongest response. You are honest about the issue, take responsibility, and communicate before the deadline.'],
+['Fix the report without telling anyone, even if it is late.','Correcting errors matters, but communicating the possible delay is also part of professional responsibility.']],best:1},
+{type:'College',title:'2. A Request to Copy',prompt:'A classmate says they are overwhelmed and asks to copy your completed assignment before the deadline. What do you do?',options:[
+['Send your completed assignment because they promise to change the wording.','Changing a few words does not make copied work original. This could violate academic integrity expectations.'],
+['Refuse to help in any way.','Protecting your work is appropriate, but you can still offer support that does not involve sharing answers.'],
+['Decline to share your work and offer to discuss concepts or direct them to tutoring.','This is the strongest response. You maintain academic integrity while offering appropriate support.']],best:2},
+{type:'Workplace',title:'3. Owning a Mistake',prompt:'You realize you entered the wrong appointment time for a client. The client has not arrived yet, but the error may disrupt their schedule. What do you do?',options:[
+['Notify the appropriate person promptly and help correct the appointment.','This is the strongest response. You acknowledge the error early and take steps to reduce its impact.'],
+['Wait to see whether anyone notices the mistake.','Waiting may make the problem harder to resolve and can affect trust.'],
+['Quietly change the appointment without notifying anyone.','Changing the record alone may not inform everyone affected. Communicate the correction appropriately.']],best:0},
+{type:'College',title:'4. The Group Assignment',prompt:'Your college group project is due tomorrow. One group member has not contributed their agreed portion, and the rest of the group is concerned. What do you do?',options:[
+['Submit the project without their name and do not tell them.','Excluding someone without communication or following course expectations may create another problem.'],
+['Contact the group member, agree on a realistic plan, and notify the instructor if needed.','This is the strongest response. You communicate respectfully, document responsibilities, and seek guidance when necessary.'],
+['Complete all their work yourself and say nothing to avoid conflict.','This may meet the deadline but does not address accountability or fair participation.']],best:1}
+];
+let index=0,chosen=null;
+const $=id=>document.getElementById(id);
+function render(){const s=scenarios[index];chosen=null;$('progressLabel').textContent=`Scenario ${index+1} of ${scenarios.length}`;$('pathway').textContent=s.type;$('progressBar').style.width=`${(index+1)/scenarios.length*100}%`;$('scenarioTitle').textContent=s.title;$('scenarioPrompt').textContent=s.prompt;$('feedback').classList.add('hidden');$('feedback').replaceChildren();$('next').classList.add('hidden');$('next').textContent=index===scenarios.length-1?'Finish challenge':'Next scenario';$('options').replaceChildren();s.options.forEach((item,i)=>{const b=document.createElement('button');b.type='button';b.className='option';b.textContent=String.fromCharCode(65+i)+'. '+item[0];b.addEventListener('click',()=>choose(i));$('options').append(b)});}
+function choose(i){if(chosen!==null)return;chosen=i;const s=scenarios[index];Array.from($('options').children).forEach((b,j)=>{b.disabled=true;if(j===i)b.classList.add('selected')});const heading=document.createElement('strong');heading.textContent=i===s.best?'Strongest response':'Consider the consequences';const detail=document.createElement('p');detail.textContent=s.options[i][1];$('feedback').append(heading,detail);$('feedback').classList.remove('hidden');$('next').classList.remove('hidden');}
+$('next').addEventListener('click',()=>{if(index<scenarios.length-1){index++;render()}else{$('activity').classList.add('hidden');$('done').classList.remove('hidden');$('restart').focus()}});
+$('restart').addEventListener('click',()=>{index=0;$('done').classList.add('hidden');$('activity').classList.remove('hidden');render();$('scenarioTitle').focus()});
+$('scenarioTitle').setAttribute('tabindex','-1');render();
+</script>
+</body>
+</html>
