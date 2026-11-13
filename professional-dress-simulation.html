@@ -22,7 +22,11 @@ body {
   color:var(--ink);
   line-height:1.45;
 }
-.wrap {max-width:960px;margin:auto;padding:6px}
+.wrap {
+  max-width:950px;
+  margin:auto;
+  padding:6px;
+}
 .hero {
   background:var(--navy);
   color:white;
@@ -31,15 +35,30 @@ body {
 }
 .hero h1 {font-size:1.65rem;margin:3px 0}
 .hero p {margin:5px 0}
-.eyebrow {color:var(--gold);font-size:.8rem;font-weight:bold}
+.eyebrow {
+  color:var(--gold);
+  font-size:.8rem;
+  font-weight:bold;
+}
 .layout {
   display:grid;
-  grid-template-columns:1.1fr 1fr;
+  grid-template-columns:1fr 1.35fr 1.1fr;
   gap:8px;
   margin-top:8px;
+  align-items:start;
 }
-.panel {background:white;border:none;border-radius:8px;padding:10px}
-h2 {font-size:1.1rem;color:var(--navy);margin:0 0 10px}
+.panel {
+  background:white;
+  border:none;
+  border-radius:8px;
+  padding:10px;
+  min-width:0;
+}
+h2 {
+  font-size:1.1rem;
+  color:var(--navy);
+  margin:0 0 10px;
+}
 button,select {font:inherit}
 button {
   cursor:pointer;
@@ -50,7 +69,8 @@ button {
   padding:8px 10px;
 }
 button:hover {border-color:var(--navy)}
-button:focus-visible,select:focus-visible {
+button:focus-visible,
+select:focus-visible {
   outline:3px solid var(--blue);
   outline-offset:2px;
 }
@@ -59,8 +79,12 @@ button:focus-visible,select:focus-visible {
   border-color:var(--navy);
   color:white;
 }
-.choice-row,.actions {display:flex;flex-wrap:wrap;gap:6px}
-.actions {margin-top:6px}
+.choice-row,.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.actions {margin-top:8px}
 .hint {font-size:.85rem;color:#425a6e}
 .scenario {
   width:100%;
@@ -75,9 +99,14 @@ button:focus-visible,select:focus-visible {
   color:var(--navy);
   font-weight:bold;
 }
-.category-tabs {display:flex;gap:5px;margin:10px 0}
+.category-tabs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:10px 0;
+}
 .category-tab {
-  flex:1;
+  flex:1 1 auto;
   padding:7px 4px;
   font-size:.85rem;
   font-weight:bold;
@@ -89,7 +118,7 @@ button:focus-visible,select:focus-visible {
 }
 .closet {
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:5px;
 }
 .item {
@@ -100,9 +129,19 @@ button:focus-visible,select:focus-visible {
   min-height:94px;
   padding:4px;
   background:#fbfdff;
+  border:1px solid #b5c7d8;
+  border-radius:6px;
 }
-.item svg {width:100%;max-width:105px;height:78px}
-.item span {font-size:.75rem;font-weight:bold;text-align:center}
+.item svg {
+  width:100%;
+  max-width:105px;
+  height:78px;
+}
+.item span {
+  font-size:.75rem;
+  font-weight:bold;
+  text-align:center;
+}
 .item[aria-pressed="true"] {
   border-color:var(--green);
   background:#f2f7df;
@@ -116,7 +155,11 @@ button:focus-visible,select:focus-visible {
   justify-content:center;
 }
 .stage.dragover {background:#fff3d4}
-#avatar {width:230px;height:310px;max-width:100%}
+#avatar {
+  width:230px;
+  height:310px;
+  max-width:100%;
+}
 .feedback {
   margin-top:8px;
   padding:10px;
@@ -133,15 +176,25 @@ button:focus-visible,select:focus-visible {
   display:block;
   margin-top:5px;
   font-size:.8rem;
-  padding:6px 8px;
+  padding:5px 8px;
   background:var(--cream);
   border-radius:6px;
 }
-.footer {font-size:.8rem;color:#486078;margin-top:8px}
+.footer {
+  font-size:.8rem;
+  color:#486078;
+  margin-top:8px;
+}
 @media(max-width:750px) {
-  .layout {grid-template-columns:1fr}
+  .layout {grid-template-columns:1fr 1fr}
+  .setup-panel {grid-column:1 / -1}
   .stage {min-height:300px}
   #avatar {height:300px}
+}
+@media(max-width:560px) {
+  .layout {grid-template-columns:1fr}
+  .setup-panel {grid-column:auto}
+  .closet {grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:360px) {
   .closet {grid-template-columns:repeat(2,1fr)}
@@ -158,15 +211,25 @@ button:focus-visible,select:focus-visible {
 </header>
 
 <div class="layout">
-<section class="panel">
+
+<!-- COLUMN 1: SETUP -->
+<section class="panel setup-panel">
   <h2>1. Choose Your Character</h2>
+
   <div class="choice-row">
-    <button id="girl" class="selected" aria-pressed="true">Girl</button>
+    <button id="girl" class="selected"
+            aria-pressed="true">Girl</button>
     <button id="boy" aria-pressed="false">Boy</button>
   </div>
-  <p class="hint">All clothing options are available for either character.</p>
 
-  <label class="section-title" for="scenario">Choose a situation</label>
+  <p class="hint">
+    All clothing options are available for either character.
+  </p>
+
+  <label class="section-title" for="scenario">
+    Choose a situation
+  </label>
+
   <select id="scenario" class="scenario">
     <option value="office">Office job interview</option>
     <option value="trade">Skilled trades worksite</option>
@@ -174,26 +237,47 @@ button:focus-visible,select:focus-visible {
     <option value="health">Healthcare clinical visit</option>
     <option value="casual">Casual workplace orientation</option>
   </select>
+
   <p id="scenario-desc" class="hint"></p>
 
+  <div class="tag">
+    <strong>Instructions:</strong> Select or drag clothing
+    onto the character. Choose a top, bottom, and shoes.
+    One-piece outfits replace the top and bottom.
+  </div>
+</section>
+
+<!-- COLUMN 2: CLOTHING -->
+<section class="panel clothing-panel">
   <h2>2. Choose Your Clothing</h2>
-  <p class="hint">
-    Drag clothing onto the character or click an item.
-    Choose a top, bottom, and shoes. One-piece outfits
-    replace the top and bottom.
-  </p>
 
   <div class="category-tabs" role="tablist"
        aria-label="Clothing categories">
-    <button class="category-tab selected" data-category="tops"
-            role="tab" aria-selected="true">Tops & Outfits</button>
-    <button class="category-tab" data-category="bottoms"
-            role="tab" aria-selected="false">Bottoms</button>
-    <button class="category-tab" data-category="shoes"
-            role="tab" aria-selected="false">Shoes & Safety</button>
+
+    <button class="category-tab selected"
+            data-category="tops"
+            role="tab"
+            aria-selected="true">
+      Tops & Outfits
+    </button>
+
+    <button class="category-tab"
+            data-category="bottoms"
+            role="tab"
+            aria-selected="false">
+      Bottoms
+    </button>
+
+    <button class="category-tab"
+            data-category="shoes"
+            role="tab"
+            aria-selected="false">
+      Shoes & Safety
+    </button>
   </div>
 
-  <div id="closet" class="closet" role="group"
+  <div id="closet" class="closet"
+       role="group"
        aria-label="Clothing choices"></div>
 
   <div class="actions">
@@ -201,25 +285,34 @@ button:focus-visible,select:focus-visible {
   </div>
 </section>
 
-<section class="panel">
+<!-- COLUMN 3: DRESS AND REVIEW -->
+<section class="panel review-panel">
   <h2>3. Review Your Outfit</h2>
+
   <div id="stage" class="stage"
        aria-label="Drop clothing onto your character">
-    <svg id="avatar" viewBox="0 0 260 400"
-         role="img" aria-label="Character outfit preview"></svg>
+    <svg id="avatar"
+         viewBox="0 0 260 400"
+         role="img"
+         aria-label="Character outfit preview"></svg>
   </div>
 
-  <div id="outfit-summary" class="tag" aria-live="polite">
+  <div id="outfit-summary" class="tag"
+       aria-live="polite">
     Choose your clothing to begin.
   </div>
 
   <div class="actions">
-    <button id="check" class="primary">Check My Outfit</button>
+    <button id="check" class="primary">
+      Check My Outfit
+    </button>
     <button id="next">Next Situation</button>
   </div>
 
   <div id="feedback" class="feedback"
-       role="status" aria-live="polite" hidden></div>
+       role="status"
+       aria-live="polite"
+       hidden></div>
 
   <p class="footer">
     This activity is ungraded. No submission is required.
@@ -227,6 +320,7 @@ button:focus-visible,select:focus-visible {
     requirements, and organizational expectations.
   </p>
 </section>
+
 </div>
 </main>
 
@@ -430,7 +524,7 @@ function drawCharacter() {
   const skin = character==="girl" ? "#bb805e" : "#986448";
   const outline = "#754b36";
 
-  // Arms are separate from the torso with visible definition.
+  // Clearly defined arms, separate from the torso.
   path(svg,
     "M109 105 Q97 108 93 124 L77 180 Q73 191 80 195 Q88 199 93 188 L111 147 Z",
     skin,outline,1.5
@@ -480,7 +574,7 @@ function drawCharacter() {
   path(svg,"M122 84 Q130 89 138 84",
        "none","#774b42",1.6);
 
-  // Default outfit before student selections.
+  // Default clothing.
   if(!selected.top && !selected.bottom) {
     garment(svg,clothes.find(x=>x.id==="tee"));
     garment(svg,clothes.find(x=>x.id==="shorts"));
